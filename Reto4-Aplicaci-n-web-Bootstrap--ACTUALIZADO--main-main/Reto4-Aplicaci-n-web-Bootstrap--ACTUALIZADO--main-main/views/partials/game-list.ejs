@@ -1,0 +1,86 @@
+<div class="row g-4 fade-in-up" style="animation-delay: 0.3s;">
+    <% if (juegos.length===0) { %>
+        <div class="col-12 text-center py-5 opacity-50">
+            <i class="bi bi-controller display-1 mb-3 d-block"></i>
+            <h5>No hay juegos aquí... todavía.</h5>
+        </div>
+        <% } %>
+
+            <% juegos.forEach(juego=> { %>
+                <div class="col-md-6 col-lg-4 col-xl-3 game-card-container" data-game-id="<%= juego.id %>">
+                    <div class="card h-100 border-0 shadow-sm glass-card rounded-4 position-relative overflow-hidden">
+
+                        <div class="position-absolute bottom-0 end-0 opacity-10 p-3"
+                            style="transform: rotate(-10deg) translate(10px, 15px); pointer-events: none;">
+                            <% if(juego.plataforma==='PC' ) { %><i class="bi bi-pc-display"
+                                    style="font-size: 7rem;"></i>
+                                <% } %>
+                                    <% if(juego.plataforma==='PlayStation' ) { %><i class="bi bi-playstation"
+                                            style="font-size: 7rem;"></i>
+                                        <% } %>
+                                            <% if(juego.plataforma==='Xbox' ) { %><i class="bi bi-xbox"
+                                                    style="font-size: 7rem;"></i>
+                                                <% } %>
+                                                    <% if(juego.plataforma==='Nintendo' ) { %><i
+                                                            class="bi bi-nintendo-switch" style="font-size: 7rem;"></i>
+                                                        <% } %>
+                        </div>
+
+                        <button
+                            class="btn btn-sm position-absolute end-0 top-0 m-3 rounded-circle shadow-sm bg-white favorite-btn"
+                            data-game-id="<%= juego.id %>" style="width: 38px; height: 38px; z-index: 10;">
+                            <i class="bi bi-star text-warning favorite-icon fs-5"></i>
+                        </button>
+
+                        <div class="card-body p-4 position-relative d-flex flex-column">
+                            <div class="mb-3">
+                                <% let badgeBg='bg-secondary' ; if(juego.plataforma==='PC' ) badgeBg='bg-dark' ;
+                                    if(juego.plataforma==='PlayStation' ) badgeBg='bg-primary' ;
+                                    if(juego.plataforma==='Xbox' ) badgeBg='bg-success' ;
+                                    if(juego.plataforma==='Nintendo' ) badgeBg='bg-danger' ; %>
+                                    <span class="badge <%= badgeBg %> badge-pill shadow-sm platform-badge">
+                                        <%= juego.plataforma %>
+                                    </span>
+                            </div>
+
+                            <h5 class="card-title fw-bold text-dark mb-1 pe-4 text-truncate"
+                                title="<%= juego.titulo %>">
+                                <%= juego.titulo %>
+                            </h5>
+                            <p class="text-muted small mb-4"><i class="bi bi-tag-fill me-1 opacity-50"></i>
+                                <%= juego.genero %>
+                            </p>
+
+                            <div class="d-flex align-items-center justify-content-between mt-auto">
+                                <% let statusClass='text-warning bg-warning-subtle' ; let icon='bi-clock' ;
+                                    if(juego.estado==='Completado' ) { statusClass='text-success bg-success-subtle' ;
+                                    icon='bi-check-circle-fill' ; } if(juego.estado==='Jugando' ) {
+                                    statusClass='text-info bg-info-subtle' ; icon='bi-controller' ; } %>
+                                    <span
+                                        class="badge <%= statusClass %> border border-0 rounded-pill px-3 py-2 shadow-sm">
+                                        <i class="bi <%= icon %> me-1"></i>
+                                        <%= juego.estado %>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <div
+                            class="card-footer glass-footer border-0 p-3 d-flex justify-content-between align-items-center position-relative">
+                            <button
+                                class="btn btn-link text-decoration-none text-primary p-0 fw-medium d-flex align-items-center gap-1 action-btn"
+                                data-bs-toggle="modal" data-bs-target="#modalJuego" data-action="edit"
+                                data-id="<%= juego.id %>" data-titulo="<%= juego.titulo %>"
+                                data-plataforma="<%= juego.plataforma %>" data-genero="<%= juego.genero %>"
+                                data-estado="<%= juego.estado %>">
+                                <i class="bi bi-pencil-square"></i> Editar
+                            </button>
+                            <a href="/videojuegos/eliminar/<%= juego.id %>"
+                                class="btn btn-sm btn-outline-danger border-0 rounded-circle action-btn-danger"
+                                title="Eliminar juego" onclick="return confirm('¿Eliminar?')">
+                                <i class="bi bi-trash-fill fs-6"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+</div>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= typeof title !=='undefined' ? title : 'GameeHub' %>
+    </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg navbar-glass sticky-top mb-4">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/dashboard">
+                <i class="bi bi-joystick text-primary"></i>
+                <span>gamepablo</span>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <div class="d-flex align-items-center gap-3">
+                    <% if (user) { %>
+                        <div class="d-flex align-items-center gap-2 bg-white px-3 py-1 rounded-pill shadow-sm border">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 28px; height: 28px;">
+                                <i class="bi bi-person-fill small"></i>
+                            </div>
+                            <span class="small fw-medium text-secondary">
+                                <%= user.email.split('@')[0] %>
+                            </span>
+                        </div>
+                        <a href="/logout" class="btn btn-sm btn-outline-danger rounded-pill px-3 transition-hover"
+                            title="Cerrar Sesión">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </a>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container flex-grow-1 animate__animated animate__fadeIn">
+        <%- body %>
+    </main>
+
+    <footer class="text-center py-4 mt-5 text-muted small opacity-50">
+        <p class="mb-0">Designed for Reto DIW &copy; 2024</p>
+    </footer>
+
+    <%- include('partials/game-form-modal') %>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            const gameModal = document.getElementById('modalJuego');
+            if (gameModal) {
+                gameModal.addEventListener('show.bs.modal', event => {
+                    const button = event.relatedTarget;
+                    const action = button.getAttribute('data-action');
+
+                    const form = document.getElementById('formJuego');
+                    const modalTitle = document.getElementById('modalTitle');
+
+                    const inputId = document.getElementById('gameId');
+                    const inputTitulo = document.getElementById('titulo');
+                    const inputPlataforma = document.getElementById('plataforma');
+                    const inputGenero = document.getElementById('genero');
+                    const inputEstado = document.getElementById('estado');
+
+                    if (action === 'edit') {
+                        modalTitle.innerHTML = '<i class="bi bi-pencil-square me-2"></i>Editar Videojuego';
+                        form.action = '/videojuegos/editar';
+
+                        inputId.value = button.getAttribute('data-id');
+                        inputTitulo.value = button.getAttribute('data-titulo');
+                        inputPlataforma.value = button.getAttribute('data-plataforma');
+                        inputGenero.value = button.getAttribute('data-genero');
+                        inputEstado.value = button.getAttribute('data-estado');
+                    } else {
+                        modalTitle.innerHTML = '<i class="bi bi-joystick me-2"></i>Nuevo Juego';
+                        form.action = '/videojuegos/crear';
+                        form.reset();
+                        inputId.value = '';
+                    }
+                });
+            }
+
+            const formJuego = document.getElementById('formJuego');
+            if (formJuego) {
+                formJuego.addEventListener('submit', async function (e) {
+                    e.preventDefault();
+
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalHtml = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Guardando...';
+                    submitBtn.disabled = true;
+
+                    try {
+                        const formData = new FormData(this);
+                        const data = Object.fromEntries(formData.entries());
+
+                        const response = await fetch(this.action, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        if (response.ok) {
+                    
+                            window.location.reload();
+                        } else {
+                            throw new Error('Error en el servidor');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error al guardar el juego.');
+                        submitBtn.innerHTML = originalHtml;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+
+            // Favorites Logic
+            const GAME_FAVS_KEY = 'user_favorite_games';
+
+            function getFavorites() {
+                const favs = localStorage.getItem(GAME_FAVS_KEY);
+                return favs ? JSON.parse(favs) : [];
+            }
+
+            function toggleFavorite(gameId, iconEl) {
+                let favs = getFavorites();
+                if (favs.includes(gameId)) {
+                    favs = favs.filter(id => id !== gameId);
+                    iconEl.classList.remove('bi-star-fill');
+                    iconEl.classList.add('bi-star');
+                } else {
+                    favs.push(gameId);
+                    iconEl.classList.remove('bi-star');
+                    iconEl.classList.add('bi-star-fill');
+                }
+                localStorage.setItem(GAME_FAVS_KEY, JSON.stringify(favs));
+                // if currently in favorites view, hide it
+                if (document.getElementById('viewFav').checked && !favs.includes(gameId)) {
+                    const gameContainer = document.querySelector(`.game-card-container[data-game-id="${gameId}"]`);
+                    if (gameContainer) gameContainer.style.display = 'none';
+                }
+            }
+
+            function applyViewMode(mode) {
+                sessionStorage.setItem('preferredViewMode', mode);
+                const favs = getFavorites();
+                document.querySelectorAll('.game-card-container').forEach(card => {
+                    const gameId = card.getAttribute('data-game-id');
+                    if (mode === 'favs') {
+                        if (favs.includes(gameId)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    } else {
+                        card.style.display = '';
+                    }
+                });
+            }
+
+            function initFavorites() {
+                const favs = getFavorites();
+
+                // Set initial stars
+                document.querySelectorAll('.favorite-btn').forEach(btn => {
+                    const gameId = btn.getAttribute('data-game-id');
+                    const icon = btn.querySelector('.favorite-icon');
+                    if (favs.includes(gameId)) {
+                        icon.classList.remove('bi-star');
+                        icon.classList.add('bi-star-fill');
+                    }
+
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleFavorite(gameId, icon);
+                    });
+                });
+
+                // Set up view toggles
+                const viewFavRadio = document.getElementById('viewFav');
+                const viewAllRadio = document.getElementById('viewAll');
+
+                if (viewFavRadio && viewAllRadio) {
+                    viewFavRadio.addEventListener('change', () => applyViewMode('favs'));
+                    viewAllRadio.addEventListener('change', () => applyViewMode('all'));
+
+                    // Read preferred mode from sessionStorage, default to 'favs' (as requested: "initially only favorites")
+                    const preferredMode = sessionStorage.getItem('preferredViewMode') || 'favs';
+
+                    if (preferredMode === 'all') {
+                        viewAllRadio.checked = true;
+                        applyViewMode('all');
+                    } else {
+                        viewFavRadio.checked = true;
+                        applyViewMode('favs');
+                    }
+                }
+            }
+
+            // Initialize when DOM is ready
+            document.addEventListener('DOMContentLoaded', () => {
+                initFavorites();
+            });
+        </script>
+</body>
+
+</html>

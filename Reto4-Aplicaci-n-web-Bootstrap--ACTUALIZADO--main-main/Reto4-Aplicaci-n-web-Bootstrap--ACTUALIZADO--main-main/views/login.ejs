@@ -1,0 +1,51 @@
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+    
+    <div class="row g-0 shadow-lg rounded-4 overflow-hidden bg-white" style="max-width: 900px; width: 100%;">
+        
+        <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center p-5 text-white" 
+     style="background-color: #3b82f6; min-height: 100%;">
+     
+    <i class="bi bi-joystick display-1 mb-4"></i>
+    <h2 class="fw-bold">GamePablo</h2>
+    <p class="text-center opacity-75">Tu biblioteca personal de videojuegos, organizada y accesible en cualquier lugar.</p>
+</div>
+
+        <div class="col-md-6 p-5 d-flex flex-column justify-content-center">
+            <div class="text-center mb-4 d-md-none">
+                <i class="bi bi-joystick text-primary display-4"></i>
+                <h2 class="fw-bold">GamePablo</h2>
+            </div>
+            
+            <h3 class="fw-bold mb-2">Bienvenido de nuevo</h3>
+            <p class="text-muted mb-4 small">Introduce tus credenciales para acceder</p>
+
+            <% if (error) { %>
+                <div class="alert alert-danger border-0 bg-danger-subtle text-danger rounded-3 small mb-4">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i><%= error %>
+                </div>
+            <% } %>
+
+            <form action="/login" method="POST">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-muted">EMAIL</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+                        <input type="email" name="email" class="form-control bg-light border-start-0 ps-0" placeholder="usuario@ejemplo.com" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-muted">CONTRASEÑA</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                        <input type="password" name="password" class="form-control bg-light border-start-0 ps-0" placeholder="********" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary-gradient w-100 mt-3 py-2">Acceder</button>
+            </form>
+
+            <div class="mt-4 text-center text-muted small">
+                Credenciales Demo: <b>admin@test.com</b> / <b>admin</b>
+            </div>
+        </div>
+    </div>
+</div>
