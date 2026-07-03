@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Movie Collection</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="/images/logo-movie-collection.png" alt="Movie Collection" style="height:202px;">
+      </div>      
+    <nav>
+      <a href="/" class="btn">Inicio</a>
+      <a href="/contact" class="btn">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <form class="login-form" action="/users/login" method="post">
+      <h2>Iniciar sesion</h2>
+
+      <% if (error) { %>
+        <p style="color:red;"><%= error %></p>
+      <% } %>
+
+      <label for="username">Usuario</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit" class="btn black">Entrar</button>
+    </form>
+  </main>
+
+  <footer>
+    <div class="footer-logo">Movie Collection © 2025</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,15 @@
+[
+    {
+      "username": "pablo",
+      "password": "1234",
+      "nombre": "Pablo",
+      "copias": [101, 201, 301]
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "nombre": "Administrador",
+      "copias": [102, 202, 302]
+    }
+  ]
+  

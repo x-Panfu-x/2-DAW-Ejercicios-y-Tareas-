@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pelicula.titulo %> - Movie Collection</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="/images/logo-movie-collection.png" alt="Movie Collection" style="height:202px;">
+      </div>      
+    <nav>
+      <a href="/" class="btn">Inicio</a>
+      <a href="/peliculas" class="btn">Volver al listado</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1><%= pelicula.titulo %> (<%= pelicula.anio %>)</h1>
+    <h3><%= pelicula.genero %> - Dirigida por <%= pelicula.director %></h3>
+
+    <section class="peliculas" style="margin-top:20px;">
+      <article class="pelicula">
+        <img src="<%= pelicula.imagen %>" alt="<%= pelicula.titulo %>">
+        <p><%= pelicula.descripcion %></p>
+        <h3>Copias asociadas</h3>
+        <ul>
+          <% pelicula.copias.forEach(function(copia) { %>
+            <li>
+              Copia <strong><%= copia.idCopia %></strong> -
+              Formato: <%= copia.formato %> -
+              Estado: <%= copia.estado %>
+            </li>
+          <% }) %>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo">Movie Collection © 2025</div>
+  </footer>
+</body>
+</html>

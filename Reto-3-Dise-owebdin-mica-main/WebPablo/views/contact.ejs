@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contacto - Movie Collection</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="/images/logo-movie-collection.png" alt="Movie Collection" style="height:162px;">
+      </div>      
+    <nav>
+      <a href="/" class="btn">Inicio</a>
+      <a href="/contact" class="btn">Contacto</a>
+
+      <% if (user) { %>
+        <a href="/peliculas" class="btn">Peliculas</a>
+        <a href="/users/logout" class="btn black">Salir (<%= user.nombre %>)</a>
+      <% } else { %>
+        <a href="/login" class="btn black">Login</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Contacto</h2>
+    <p>Dejanos tu correo y un mensaje y te contestaremos lo antes posible.</p>
+
+    <form action="#" method="post">
+      <label for="email">Correo electronico</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="mensaje">Mensaje</label>
+      <textarea id="mensaje" name="mensaje" rows="5" style="width:100%; border-radius:7px; border:1px solid #bbb; padding:10px;"></textarea>
+
+      <button type="submit" class="btn black">Enviar</button>
+    </form>
+  </main>
+
+  <footer>
+    <div class="footer-logo">Movie Collection © 2025</div>
+  </footer>
+</body>
+</html>

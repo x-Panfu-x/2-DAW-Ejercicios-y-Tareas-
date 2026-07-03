@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Collection - Inicio</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="/images/logo-movie-collection.png" alt="Movie Collection" style="height:202px;">
+      </div>      
+    <nav>
+      <a href="/" class="btn">Inicio</a>
+      <a href="/contact" class="btn">Contacto</a>
+
+      <% if (user) { %>
+        <a href="/peliculas" class="btn">Películas</a>
+        <a href="/users/logout" class="btn black">Salir (<%= user.nombre %>)</a>
+      <% } else { %>
+        <a href="/login" class="btn black">Login</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Copias Peliculas</h1>
+    <h3>Añadidas por la Comunidad</h3>
+    <p style="text-align:center;">
+      Inicia sesion para ver el listado completo de peliculas.
+    </p>
+
+    <section style="max-width:900px; margin:30px auto 0; padding:20px 24px; border-radius:14px; border:1px solid #ddd; box-shadow:0 2px 12px #e5e5e5; background:#fafafa;">
+      <h2 style="margin-bottom:10px; font-size:22px;">Novedades en Movie Collection</h2>
+      <p style="margin:4px 0 10px; font-size:16px; color:#555;">
+        Esta semana la comunidad ha añadido nuevas peliculas imprescindibles para tu coleccion.
+      </p>
+      <ul style="margin:0 0 6px 18px; font-size:15px; color:#444;">
+        <li><strong>El Club de la Lucha</strong>: edicion restaurada con material extra para fans.</li>
+        <li><strong>Se7en</strong>: copia en alta definicion con audio original remasterizado.</li>
+        <li><strong>Parasite</strong>: version especial con comentarios del director.</li>
+      </ul>
+      <p style="margin:6px 0 0; font-size:14px; color:#777;">
+        Entra con tu usuario para consultar todas las copias disponibles y reservar tu proxima sesion de cine en casa.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-logo">Movie Collection © 2025</div>
+  </footer>
+</body>
+</html>

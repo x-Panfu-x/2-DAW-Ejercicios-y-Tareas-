@@ -1,0 +1,42 @@
+[
+    {
+      "id": 1,
+      "titulo": "El Club de la Lucha",
+      "anio": 1999,
+      "genero": "Drama",
+      "director": "David Fincher",
+      "descripcion": "Peleas clandestinas y crítica al sistema a través de un club secreto.",
+      "imagen": "/images/club.jpg",
+      "copias": [
+        { "idCopia": 101, "formato": "Blu-ray", "estado": "Disponible" },
+        { "idCopia": 102, "formato": "DVD", "estado": "Prestado" }
+      ]
+    },
+    {
+      "id": 2,
+      "titulo": "Se7en",
+      "anio": 1995,
+      "genero": "Thriller",
+      "director": "David Fincher",
+      "descripcion": "Dos detectives persiguen a un asesino en serie que usa los siete pecados capitales.",
+      "imagen": "/images/seven.jpg",
+      "copias": [
+        { "idCopia": 201, "formato": "Blu-ray", "estado": "Disponible" },
+        { "idCopia": 202, "formato": "Digital", "estado": "No disponible" }
+      ]
+    },
+    {
+      "id": 3,
+      "titulo": "Parasite",
+      "anio": 2019,
+      "genero": "Drama",
+      "director": "Bong Joon-ho",
+      "descripcion": "Una familia pobre se infiltra poco a poco en la vida de una familia rica.",
+      "imagen": "/images/paradi.jpg",
+      "copias": [
+        { "idCopia": 301, "formato": "Blu-ray", "estado": "Disponible" },
+        { "idCopia": 302, "formato": "DVD", "estado": "Reservado" }
+      ]
+    }
+  ]
+  
